@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from "react";
+import carList from "./data.js";
+import CarTable from "./tables/CarTable";
+import AddCarForm from "./forms/AddCarForm";
 
-function App() {
+const App = () => {
+  const [cars, setCars] = useState(carList);
+
+  const addCar = (car) => {
+    car.id = cars.length + 1;
+    setCars([...cars, car]);
+  };
+
+  const deleteCar = (id) => setCars(cars.filter((car) => car.id !== id));
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <h1>React Car App</h1>
+      <div className="row">
+        <div className="six columns">
+          <h2>Add car</h2>
+          <AddCarForm addCar={addCar} />
+        </div>
+        <div className="six columns">
+          <h2>View cars</h2>
+          <CarTable cars={cars} deleteCar={deleteCar} />;
+        </div>
+      </div>
     </div>
   );
-}
+};
 
 export default App;
