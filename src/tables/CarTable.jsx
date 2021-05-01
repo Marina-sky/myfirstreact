@@ -22,7 +22,7 @@ const CarTable = (props) => {
                 <td>{model}</td>
                 <td>
                   <button onClick={() => props.deleteCar(id)}>Delete</button>
-                  <button>Edit</button>
+                  <button onClick={() => props.editCar(id, car)}>Edit</button>
                 </td>
               </tr>
             );

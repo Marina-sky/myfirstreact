@@ -9,6 +9,11 @@ const carList = [
     make: "BMW",
     model: "535i",
   },
+  {
+    id: 3,
+    make: "Chevrolet",
+    model: "Camaro",
+  },
 ];
 
 export default carList;
