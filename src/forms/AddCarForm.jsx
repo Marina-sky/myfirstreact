@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const AddCarForm = (props) => {
+
+  useEffect(() => {
+    setCar(initCar);
+  }, [props]);
+
   const initCar = { id: null, make: "", model: "" };
 
   const [car, setCar] = useState(initCar);
