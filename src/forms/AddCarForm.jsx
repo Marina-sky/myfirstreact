@@ -20,8 +20,7 @@ const AddCarForm = (props) => {
     if (car.make && car.model) {
       handleChange(e, props.addCar(car));
       document.getElementById("error-message").style.display = "none";
-    }
-    if (car.make == "" || car.model == "") {
+    } else {
       document.getElementById("error-message").innerHTML = "All fields are required.";
     }
   };
@@ -29,13 +28,24 @@ const AddCarForm = (props) => {
   return (
     <form>
       <label>Make</label>
-      <input
+      <select
         className="u-full-width"
-        type="text"
         value={car.make}
         name="make"
         onChange={handleChange}
-      />
+      >
+        <option value="">-- select --</option>
+        <option value="Audi">Audi</option>
+        <option value="BMW">BMW</option>
+        <option value="Chevrolet">Chevrolet</option>
+        <option value="Ford">Ford</option>
+        <option value="Honda">Honda</option>
+        <option value="Mazda">Mazda</option>
+        <option value="Mercedes-Benz">Mercedes-Benz</option>
+        <option value="Toyota">Toyota</option>
+        <option value="Volkswagen">Volkswagen</option>
+        <option value="Volvo">Volvo</option>
+      </select>
       <label>Model</label>
       <input
         className="u-full-width"
