@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 const EditCarForm = (props) => {
-
   useEffect(() => {
     setCar(props.currentCar);
   }, [props]);
@@ -15,7 +14,14 @@ const EditCarForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (car.make && car.model) props.updateCar(car);
+    if (car.make && car.model) {
+      props.updateCar(car);
+      document.getElementById("error-message").style.display = "none";
+    }
+    if (car.make == "" || car.model == "") {
+      document.getElementById("error-message").innerHTML =
+        "All fields are required.";
+    }
   };
 
   return (
@@ -36,6 +42,7 @@ const EditCarForm = (props) => {
         name="model"
         onChange={handleChange}
       />
+      <div style={{ color: "red" }} id="error-message"></div>
       <button className="button-primary" type="submit" onClick={handleSubmit}>
         Edit car
       </button>

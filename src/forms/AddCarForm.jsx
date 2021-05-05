@@ -19,6 +19,10 @@ const AddCarForm = (props) => {
     e.preventDefault();
     if (car.make && car.model) {
       handleChange(e, props.addCar(car));
+      document.getElementById("error-message").style.display = "none";
+    }
+    if (car.make == "" || car.model == "") {
+      document.getElementById("error-message").innerHTML = "All fields are required.";
     }
   };
 
@@ -40,6 +44,7 @@ const AddCarForm = (props) => {
         name="model"
         onChange={handleChange}
       />
+      <div style={{ color: "red" }} id="error-message"></div>
       <button className="button-primary" type="submit" onClick={handleSubmit}>
         Add car
       </button>
