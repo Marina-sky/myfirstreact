@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 const AddCarForm = (props) => {
-
   useEffect(() => {
     setCar(initCar);
   }, [props]);
@@ -18,7 +17,8 @@ const AddCarForm = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (car.make && car.model) {
-      handleChange(e, props.addCar(car));
+      car.id = props.store.cars.length +1;
+      props.store.createCar(car);
       document.getElementById("error-message").style.display = "none";
     } else {
       document.getElementById("error-message").innerHTML = "All fields are required.";

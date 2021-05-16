@@ -1,18 +1,24 @@
 import React, { useState } from "react";
-import carList from "./data.js";
-import CarTable from "./tables/CarTable";
-import AddCarForm from "./forms/AddCarForm";
-import EditCarForm from "./forms/EditCarForm";
+import CarStore from "./stores/CarStore";
+import CarTable from "./components/CarTable";
+import AddCarForm from "./components/forms/AddCarForm";
+import EditCarForm from "./components/forms/EditCarForm";
+
+const store = new CarStore();
 
 const App = () => {
-  const [cars, setCars] = useState(carList);
+/*  const [cars, setCars] = useState(CarTable);
 
   const addCar = (car) => {
     car.id = cars.length + 1;
     setCars([...cars, car]);
   };
 
-  const deleteCar = (id) => setCars(cars.filter((car) => car.id !== id));
+  const updateCar = (newCar) => {
+    setCars(cars.map((car) => (car.id === currentCar.id ? newCar : car)));
+    setCurrentCar(initialCar);
+    setEditing(false);
+  }; */
 
   const [editing, setEditing] = useState(false);
 
@@ -23,11 +29,6 @@ const App = () => {
   const editCar = (id, car) => {
     setEditing(true);
     setCurrentCar(car);
-  };
-  const updateCar = (newCar) => {
-    setCars(cars.map((car) => (car.id === currentCar.id ? newCar : car)));
-    setCurrentCar(initialCar);
-    setEditing(false);
   };
 
   return (
@@ -41,19 +42,19 @@ const App = () => {
               <EditCarForm
                 currentCar={currentCar}
                 setEditing={setEditing}
-                updateCar={updateCar}
+                store={store}
               />
             </div>
           ) : (
             <div>
               <h2>Add car</h2>
-              <AddCarForm addCar={addCar} />
+              <AddCarForm store={store} />
             </div>
           )}
         </div>
         <div className="seven columns">
           <h2>View cars</h2>
-          <CarTable cars={cars} deleteCar={deleteCar} editCar={editCar} />
+          <CarTable editCar={editCar} store={store} />
         </div>
       </div>
     </div>

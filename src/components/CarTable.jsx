@@ -1,4 +1,5 @@
 import React from "react";
+import { observer } from "mobx-react-lite";
 
 const CarTable = (props) => {
   return (
@@ -12,8 +13,8 @@ const CarTable = (props) => {
         </tr>
       </thead>
       <tbody>
-        {props.cars.length > 0 ? (
-          props.cars.map((car) => {
+        {props.store.cars.length > 0 ? (
+          props.store.cars.map((car) => {
             const { id, make, model } = car;
             return (
               <tr>
@@ -21,7 +22,7 @@ const CarTable = (props) => {
                 <td>{make}</td>
                 <td>{model}</td>
                 <td>
-                  <button onClick={() => props.deleteCar(id)}>Delete</button>
+                  <button onClick={() => props.store.deleteCar(id)}>Delete</button>
                   <button onClick={() => props.editCar(id, car)}>Edit</button>
                 </td>
               </tr>
@@ -37,4 +38,4 @@ const CarTable = (props) => {
   );
 };
 
-export default CarTable;
+export default observer(CarTable);

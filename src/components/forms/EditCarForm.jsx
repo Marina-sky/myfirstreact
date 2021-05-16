@@ -15,7 +15,7 @@ const EditCarForm = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (car.make && car.model) {
-      props.updateCar(car);
+      props.store.updateCar(car.id, car);
       document.getElementById("error-message").style.display = "none";
     } else {
       document.getElementById("error-message").innerHTML =
