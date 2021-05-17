@@ -7,18 +7,8 @@ import EditCarForm from "./components/forms/EditCarForm";
 const store = new CarStore();
 
 const App = () => {
-/*  const [cars, setCars] = useState(CarTable);
 
-  const addCar = (car) => {
-    car.id = cars.length + 1;
-    setCars([...cars, car]);
-  };
-
-  const updateCar = (newCar) => {
-    setCars(cars.map((car) => (car.id === currentCar.id ? newCar : car)));
-    setCurrentCar(initialCar);
-    setEditing(false);
-  }; */
+  const [cars, setCars] = useState(CarTable);
 
   const [editing, setEditing] = useState(false);
 
@@ -29,6 +19,12 @@ const App = () => {
   const editCar = (id, car) => {
     setEditing(true);
     setCurrentCar(car);
+  };
+
+  const resetCar = (newCar) => {
+    setCars(store.cars.map((car) => (car.id === currentCar.id ? newCar : car)));
+    setCurrentCar(initialCar);
+    setEditing(false);
   };
 
   return (
@@ -42,6 +38,7 @@ const App = () => {
               <EditCarForm
                 currentCar={currentCar}
                 setEditing={setEditing}
+                resetCar={resetCar}
                 store={store}
               />
             </div>
@@ -54,7 +51,7 @@ const App = () => {
         </div>
         <div className="seven columns">
           <h2>View cars</h2>
-          <CarTable editCar={editCar} store={store} />
+          <CarTable cars={cars} editCar={editCar} store={store} />
         </div>
       </div>
     </div>

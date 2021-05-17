@@ -17,12 +17,14 @@ const CarTable = (props) => {
           props.store.cars.map((car) => {
             const { id, make, model } = car;
             return (
-              <tr>
+              <tr key={id}>
                 <td>{id}</td>
                 <td>{make}</td>
                 <td>{model}</td>
                 <td>
-                  <button onClick={() => props.store.deleteCar(id)}>Delete</button>
+                  <button onClick={() => props.store.deleteCar(id)}>
+                    Delete
+                  </button>
                   <button onClick={() => props.editCar(id, car)}>Edit</button>
                 </td>
               </tr>

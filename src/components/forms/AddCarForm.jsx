@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 const AddCarForm = (props) => {
-  useEffect(() => {
-    setCar(initCar);
-  }, [props]);
-
+  
   const initCar = { id: null, make: "", model: "" };
 
   const [car, setCar] = useState(initCar);
@@ -23,6 +20,7 @@ const AddCarForm = (props) => {
     } else {
       document.getElementById("error-message").innerHTML = "All fields are required.";
     }
+    setCar(initCar);
   };
 
   return (
