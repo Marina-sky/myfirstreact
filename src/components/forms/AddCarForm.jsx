@@ -3,7 +3,6 @@ import React, { useState } from "react";
 const AddCarForm = (props) => {
   
   const initCar = { id: null, make: "", model: "" };
-
   const [car, setCar] = useState(initCar);
 
   const handleChange = (e) => {
@@ -33,16 +32,14 @@ const AddCarForm = (props) => {
         onChange={handleChange}
       >
         <option value="">-- select --</option>
-        <option value="Audi">Audi</option>
-        <option value="BMW">BMW</option>
-        <option value="Chevrolet">Chevrolet</option>
-        <option value="Ford">Ford</option>
-        <option value="Honda">Honda</option>
-        <option value="Mazda">Mazda</option>
-        <option value="Mercedes-Benz">Mercedes-Benz</option>
-        <option value="Toyota">Toyota</option>
-        <option value="Volkswagen">Volkswagen</option>
-        <option value="Volvo">Volvo</option>
+        {props.store.carsMake.map((mt) => {
+           const { id, name } = mt;
+            return (
+              <option key={id} value={name}>
+                {name}
+              </option>
+            );
+          })}
       </select>
       <label>Model</label>
       <input

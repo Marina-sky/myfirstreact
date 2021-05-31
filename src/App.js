@@ -4,10 +4,43 @@ import CarTable from "./components/CarTable";
 import AddCarForm from "./components/forms/AddCarForm";
 import EditCarForm from "./components/forms/EditCarForm";
 
+import CarMakeTable from "./components/CarMakeTable";
+import AddCarMakeForm from "./components/forms/AddCarMakeForm";
+import EditCarMakeForm from "./components/forms/EditCarMakeForm";
+
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
+
 const store = new CarStore();
 
-const App = () => {
+export default function NavigationLinks() {
+  return (
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/make">Make</Link>
+            </li>
+            <li>
+              <Link to="/">Cars</Link>
+            </li>
+          </ul>
+        </nav>
+        <Switch>
+          <Route path="/make">
+            <CarsMake />
+          </Route>
+          <Route path="/">
+            <CarsApp />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+  );
+}
 
+const CarsApp = () => {
   const [cars, setCars] = useState(CarTable);
 
   const [editing, setEditing] = useState(false);
@@ -58,4 +91,62 @@ const App = () => {
   );
 };
 
-export default App;
+const CarsMake = () => {
+  const [carsMake, setCarsMake] = useState(CarMakeTable);
+
+  const [editing, setEditing] = useState(false);
+
+  const initialCarMake = { id: null, make: "" };
+
+  const [currentCarMake, setCurrentCarMake] = useState(initialCarMake);
+
+  const editCarMake = (id, car) => {
+    setEditing(true);
+    setCurrentCarMake(car);
+  };
+
+  const resetCarMake = (newCarMake) => {
+    setCarsMake(
+      store.carsMake.map((carMake) =>
+        carMake.id === currentCarMake.id ? newCarMake : carMake
+      )
+    );
+    setCurrentCarMake(initialCarMake);
+    setEditing(false);
+  };
+
+  return (
+    <div className="container">
+      <h1>React App</h1>
+      <div className="row">
+        <div className="five columns">
+          {editing ? (
+            <div>
+              <h2>Edit car make</h2>
+              <EditCarMakeForm
+                currentCarMake={currentCarMake}
+                setEditing={setEditing}
+                resetCarMake={resetCarMake}
+                store={store}
+              />
+            </div>
+          ) : (
+            <div>
+              <h2>Add car make</h2>
+              <AddCarMakeForm store={store} />
+            </div>
+          )}
+        </div>
+        <div className="seven columns">
+          <h2>View cars make</h2>
+          <CarMakeTable
+            carsMake={carsMake}
+            editCarMake={editCarMake}
+            store={store}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+

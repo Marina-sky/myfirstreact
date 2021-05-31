@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
 
-const EditCarForm = (props) => {
+const EditCarMakeForm = (props) => {
   useEffect(() => {
-    setCar(props.currentCar);
+    setCarMake(props.currentCarMake);
   }, [props]);
-
-  const [car, setCar] = useState(props.currentCar);
+console.log(props);
+  const [carMake, setCarMake] = useState(props.currentCarMake);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCar({ ...car, [name]: value });
+    setCarMake({ ...carMake, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (car.make && car.model) {
-      props.store.updateCar(car.id, car);
-      props.resetCar(car.id, car);
+    if (carMake.name) {
+      props.store.updateCarMake(carMake.id, carMake);
+      props.resetCarMake(carMake.id, carMake);
       document.getElementById("error-message").style.display = "none";
     } else {
       document.getElementById("error-message").innerHTML =
@@ -26,34 +26,17 @@ const EditCarForm = (props) => {
 
   return (
     <form>
-      <label>Make</label>
-      <select
-        className="u-full-width"
-        value={car.make}
-        name="make"
-        onChange={handleChange}
-      >
-        <option value="">-- select --</option>
-        {props.store.carsMake.map((mt) => {
-          const { id, name } = mt;
-          return (
-            <option key={id} value={name}>
-              {name}
-            </option>
-          );
-        })}
-      </select>
-      <label>Model</label>
+      <label>Name</label>
       <input
         className="u-full-width"
         type="text"
-        value={car.model}
-        name="model"
+        value={carMake.name}
+        name="name"
         onChange={handleChange}
       />
       <div style={{ color: "red" }} id="error-message"></div>
       <button className="button-primary" type="submit" onClick={handleSubmit}>
-        Edit car
+        Edit car make
       </button>
       <button type="submit" onClick={() => props.setEditing(false)}>
         Cancel
@@ -62,4 +45,4 @@ const EditCarForm = (props) => {
   );
 };
 
-export default EditCarForm;
+export default EditCarMakeForm;
