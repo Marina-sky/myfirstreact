@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import CarStore from "./stores/CarStore";
 import CarTable from "./components/CarTable";
-import AddCarForm from "./components/forms/AddCarForm";
-import EditCarForm from "./components/forms/EditCarForm";
+import CarForm from "./components/forms/CarForm";
 
 import CarMakeTable from "./components/CarMakeTable";
 import AddCarMakeForm from "./components/forms/AddCarMakeForm";
@@ -65,22 +64,16 @@ const CarsApp = () => {
       <h1>React App</h1>
       <div className="row">
         <div className="five columns">
-          {editing ? (
-            <div>
-              <h2>Edit car</h2>
-              <EditCarForm
+            <div> 
+              <CarForm
                 currentCar={currentCar}
                 setEditing={setEditing}
                 resetCar={resetCar}
                 store={store}
+                editing={editing}
               />
             </div>
-          ) : (
-            <div>
-              <h2>Add car</h2>
-              <AddCarForm store={store} />
-            </div>
-          )}
+        
         </div>
         <div className="seven columns">
           <h2>View cars</h2>

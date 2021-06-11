@@ -18,7 +18,7 @@ const AddCarMakeForm = (props) => {
       document.getElementById("error-message").style.display = "none";
     } else {
       document.getElementById("error-message").innerHTML =
-        "All fields are required.";
+        "This field is required.";
     }
     setCarMake(initCarMake);
   };
