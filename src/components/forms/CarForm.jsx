@@ -12,8 +12,8 @@ const CarForm = (props) => {
     state = props.currentCar;
   } else {
     state = initCar;
-    
   }
+  
   const [car, setCar] = useState(state);
 
   const handleChange = (e) => {
