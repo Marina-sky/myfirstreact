@@ -1,7 +1,41 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 
-const CarTable = (props) => {
+const CarTable = ({ name, headings, data, onEdit, onDelete }) => {
+  return (
+    <table>
+      <thead>
+        <tr>
+          {headings.map((heading) => (
+            <th key={heading}>{heading}</th>
+          ))}
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.length > 0 ? (
+          data.map((r) => (
+            <tr key={r.join()}>
+              {r.map((d) => (
+                <td key={d}>{d}</td>
+              ))}
+              <td>
+                <button onClick={onDelete}>Delete</button>
+                <button onClick={onEdit}>Edit</button>
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan={headings.length + 1}>No {name} found</td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  );
+};
+
+/*const CarTable = (props) => {
   return (
     <table>
       <thead>
@@ -38,6 +72,6 @@ const CarTable = (props) => {
       </tbody>
     </table>
   );
-};
+};*/
 
 export default observer(CarTable);

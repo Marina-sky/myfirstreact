@@ -4,8 +4,6 @@ import CarTable from "./components/CarTable";
 import CarForm from "./components/forms/CarForm";
 import CarMakeForm from "./components/forms/CarMakeForm";
 
-import CarMakeTable from "./components/CarMakeTable";
-
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 
@@ -38,7 +36,7 @@ export default function NavigationLinks() {
   );
 }
 
-const CarsApp = () => {
+const CarsApp = (props) => {
   const [cars, setCars] = useState(CarTable);
 
   const [editing, setEditing] = useState(false);
@@ -63,19 +61,28 @@ const CarsApp = () => {
       <h1>React App</h1>
       <div className="row">
         <div className="five columns">
-            <div> 
-              <CarForm
-                currentCar={currentCar}
-                setEditing={setEditing}
-                resetCar={resetCar}
-                store={store}
-                editing={editing}
-              />
-            </div>
+          <div>
+            <CarForm
+              currentCar={currentCar}
+              setEditing={setEditing}
+              resetCar={resetCar}
+              store={store}
+              editing={editing}
+            />
+          </div>
         </div>
         <div className="seven columns">
           <h2>View cars</h2>
-          <CarTable cars={cars} editCar={editCar} store={store} />
+          <CarTable
+            cars={cars}
+            editCar={editCar}
+            store={store}
+            name="cars"
+            headings={["ID", "Make", "Model"]}
+            data={store.cars.map((car) => [car.id, car.make, car.model])}
+            onDelete={(car) => props.store.deleteCar(car.id)}
+            onEdit={(car) => props.editCar(car.id, car)}
+          />
         </div>
       </div>
     </div>
@@ -83,8 +90,8 @@ const CarsApp = () => {
 };
 
 
-const CarsMake = () => {
-  const [carsMake, setCarsMake] = useState(CarMakeTable);
+const CarsMake = (props) => {
+  const [carsMake, setCarsMake] = useState(CarTable);
 
   const [editing, setEditing] = useState(false);
 
@@ -120,10 +127,18 @@ const CarsMake = () => {
         </div>
         <div className="seven columns">
           <h2>View cars make</h2>
-          <CarMakeTable
+          <CarTable
             carsMake={carsMake}
             editCarMake={editCarMake}
             store={store}
+            name="cars make"
+            headings={["ID", "Name"]}
+            data={store.carsMake.map((carMake) => [
+              carMake.id,
+              carMake.name,
+            ])}
+            onDelete={(carMake) => props.store.deleteCarMake(carMake.id)}
+            onEdit={(carMake) => props.editCarMake(carMake.id, carMake)}
           />
         </div>
       </div>
