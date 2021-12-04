@@ -21,7 +21,7 @@ const Table = ({ name, headings, data, onDelete }) => {
                 <td key={d}>{d}</td>
               ))}
               <td>
-                <button onClick={onDelete}>Delete</button>
+                <button onClick={() => onDelete(r[0])}>Delete</button>
                 <Link to={`edit/${r[0]}`} className="button button-primary">
                   Edit
                 </Link>

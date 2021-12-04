@@ -1,60 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { observer } from "mobx-react-lite";
+import { useCarMakeStore } from "../../contexts";
 
 const CarForm = (props) => {
-  useEffect(() => {
-    setCar(props.currentCar);
-  }, [props]);
+  const carMakeStore = useCarMakeStore();
 
-  const initCar = { id: null, make: "", model: "" };
-
-  let state;
-  if (props.editing === true) {  
-    state = props.currentCar;
-  } else {
-    state = initCar;
-  }
-  
-  const [car, setCar] = useState(state);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setCar({ ...car, [name]: value });
-  };
-
-  function handleRequest() {
-    if (props.editing === true) {
-      props.store.updateCar(car.id, car);
-      props.resetCar(car.id, car);
-    } else {
-      car.id = props.store.cars.length + 1;
-      props.store.createCar(car);
-      setCar(initCar);
-    }
-  }
+  const [carMake, setCarMake] = useState("");
+  const [carModel, setCarModel] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (car.make && car.model) {
-      handleRequest();
-      document.getElementById("error-message").style.display = "none";
+    if (carMake && carModel) {
+      props.store.createCar({ 
+        make: carMake,
+        model: carModel
+       });
+      setCarMake("");
+      setCarModel("");
     } else {
-      document.getElementById("error-message").innerHTML =
-        "All fields are required.";
+      setError("Both fields are required.");
     }
   };
 
   return (
-    <form>
-      <h2>{props.editing ? "Edit car" : "Add car"}</h2>
+    <form onSubmit={handleSubmit}>
+      <h2>Add car</h2>
       <label>Make</label>
       <select
         className="u-full-width"
-        value={props.store.cars.make}
+        value={carMake}
         name="make"
-        onChange={handleChange}
+        onChange={(event) => {
+          setCarMake(event.target.value);
+          setError("");
+        }}
       >
         <option value="">-- select --</option>
-        {props.store.carsMake.map((mt) => {
+        {carMakeStore.carMakes.map((mt) => {
           const { id, name } = mt;
           return (
             <option key={id} value={name}>
@@ -67,37 +50,21 @@ const CarForm = (props) => {
       <input
         className="u-full-width"
         type="text"
-        value={props.store.cars.model}
+        value={carModel}
         name="model"
-        onChange={handleChange}
+        onChange={(event) => {
+          setCarModel(event.target.value);
+          setError("");
+        }}
       />
-      <div style={{ color: "red" }} id="error-message"></div>
-        {props.editing ? (
-          <div>
-            <button
-              className="button-primary"
-              type="submit"
-              onClick={handleSubmit}
-            >
-              Edit car
-            </button>
-            <button type="submit" onClick={() => props.resetCar(car.id, car)}>
-              Cancel
-            </button>
-          </div>
-        ) : (
-          <div>
-            <button
-              className="button-primary"
-              type="submit"
-              onClick={handleSubmit}
-            >
-              Add car
-            </button>
-          </div>
-        )}
+      {error && <div style={{ color: "red" }}>{error}</div>}
+      <div>
+        <button className="button-primary" type="submit">
+          Add car
+        </button>
+      </div>
     </form>
   );
 };
 
-export default CarForm;
+export default observer(CarForm);

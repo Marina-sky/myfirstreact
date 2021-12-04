@@ -1,15 +1,13 @@
 import React from "react";
-import CarStore from "./stores/CarStore";
-import Table from "./components/Table";
-import CarForm from "./components/forms/CarForm";
-import CarMakeForm from "./components/forms/CarMakeForm";
+
+import CarMakeListPage from './pages/CarMakeListPage'
+import CarListPage from './pages/CarListPage'
+
 import car_drawing from "./common/car_drawing.png";
 
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
-const store = new CarStore();
-
-export default function NavigationLinks() {
+export default function App(props) {
   return (
     <Router>
       <div>
@@ -33,10 +31,10 @@ export default function NavigationLinks() {
               </div>
             }
           />
-          <Route path="/cars" element={<CarsApp />}>
+          <Route path="/cars" element={<CarListPage store={props.store} />}>
             <Route path="edit/:carId" element={<div />} />
           </Route>
-          <Route path="/makes" element={<CarsMake />}>
+          <Route path="/makes" element={<CarMakeListPage />}>
             <Route path="edit/:makeId" element={<div />} />
           </Route>
         </Routes>
@@ -45,56 +43,65 @@ export default function NavigationLinks() {
   );
 }
 
-const CarsApp = () => {
-  return (
-    <div className="container">
-      <h1>Car List App</h1>
-      <div className="row">
-        <div className="five columns">
-          <div>
-            <CarForm store={store} />
-          </div>
-        </div>
-        <div className="seven columns">
-          <h2>View cars</h2>
-          <Table
-            store={store}
-            name="cars"
-            headings={["ID", "Make", "Model"]}
-            data={store.cars.map((car) => [car.id, car.make, car.model])}
-            onDelete={(car) => store.deleteCar(car.id)}
-            onEdit={(car) => store.updateCar(car.id, car)}
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
+// const CarsApp = observer((props) => {
+//   return (
+//     <div className="container">
+//       <h1>Car List App</h1>
+//       <div className="row">
+//         <div className="five columns">
+//           <div>
+//             <CarForm store={props.store} />
+//           </div>
+//         </div>
+//         <div className="seven columns">
+//           <h2>View cars</h2>
+//           <Table
+//             store={props.store}
+//             name="cars"
+//             headings={["ID", "Make", "Model"]}
+//             data={props.store.cars.map((car) => [car.id, car.make, car.model])}
+//             onDelete={(carId) => props.store.deleteCar(carId)}
+//             onEdit={(car) => props.store.updateCar(car.id, car)}
+//           />
+//         </div>
+//       </div>
+//     </div>
+//   );
+// });
 
-const CarsMake = () => {
-  const [carMakeId, setCarMakeId] = React.useState(null);
+// const CarsMake = observer((props) => {
+//   const [carMakeId, setCarMakeId] = React.useState(null);
 
-  return (
-    <div className="container">
-      <h1>Car List App</h1>
-      <div className="row">
-        <div className="five columns">
-          <div>
-            <CarMakeForm store={store} id={carMakeId} />
-          </div>
-        </div>
-        <div className="seven columns">
-          <h2>View cars make</h2>
-          <Table
-            store={store}
-            name="cars make"
-            headings={["ID", "Name"]}
-            data={store.carsMake.map((carMake) => [carMake.id, carMake.name])}
-            onDelete={(carMake) => store.deleteCarMake(carMake.id)}
-            onEdit={(id) => setCarMakeId(id)}
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
+//   const localStore = useLocalObservable(() => ({
+//     carMakes: [],
+//     createCarMake(name) {
+//       this.carMakes.push({ id: this.carMakes.length, name })
+//     },
+//     deleteCarMake(id) {
+//       this.carMakes = this.carMakes.filter((carMake) => carMake.id !== id)
+//     },
+//   }))
+
+//   return ( 
+//     <div className="container">
+//       <h1>Car List App</h1>
+//       <div className="row">
+//         <div className="five columns">
+//           <div>
+//             <CarMakeForm store={localStore} id={carMakeId} />
+//           </div>
+//         </div>
+//         <div className="seven columns">
+//           <h2>View cars make</h2>
+//           <Table
+//             name="cars make"
+//             headings={["ID", "Name"]}
+//             data={localStore.carMakes.map((carMake) => [carMake.id, carMake.name])}
+//             onDelete={(id) => localStore.deleteCarMake(id)}
+//             // onEdit={(id) => setCarMakeId(id)}
+//           />
+//         </div>
+//       </div>
+//     </div>
+//   )
+// });
