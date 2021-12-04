@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import CarStore from "./stores/CarStore";
-import CarTable from "./components/CarTable";
+import Table from "./components/Table";
 import CarForm from "./components/forms/CarForm";
 import CarMakeForm from "./components/forms/CarMakeForm";
+import car_drawing from "./common/car_drawing.png";
 
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 const store = new CarStore();
 
@@ -16,72 +16,54 @@ export default function NavigationLinks() {
         <nav>
           <ul>
             <li>
-              <Link to="/make">Make</Link>
+              <Link to="/makes">Makes</Link>
             </li>
             <li>
-              <Link to="/">Cars</Link>
+              <Link to="/cars">Cars</Link>
             </li>
           </ul>
         </nav>
-        <Switch>
-          <Route path="/make">
-            <CarsMake />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <div className="container">
+                <h1>Car List App</h1>
+                <img src={car_drawing} alt="Car logo" />
+              </div>
+            }
+          />
+          <Route path="/cars" element={<CarsApp />}>
+            <Route path="edit/:carId" element={<div />} />
           </Route>
-          <Route path="/">
-            <CarsApp />
+          <Route path="/makes" element={<CarsMake />}>
+            <Route path="edit/:makeId" element={<div />} />
           </Route>
-        </Switch>
+        </Routes>
       </div>
     </Router>
   );
 }
 
-const CarsApp = (props) => {
-  const [cars, setCars] = useState(CarTable);
-
-  const [editing, setEditing] = useState(false);
-
-  const initialCar = { id: null, make: "", model: "" };
-
-  const [currentCar, setCurrentCar] = useState(initialCar);
-
-  const editCar = (id, car) => {
-    setEditing(true);
-    setCurrentCar(car);
-  };
-
-  const resetCar = (newCar) => {
-    setCars(store.cars.map((car) => (car.id === currentCar.id ? newCar : car)));
-    setCurrentCar(initialCar);
-    setEditing(false);
-  };
-
+const CarsApp = () => {
   return (
     <div className="container">
-      <h1>React App</h1>
+      <h1>Car List App</h1>
       <div className="row">
         <div className="five columns">
           <div>
-            <CarForm
-              currentCar={currentCar}
-              setEditing={setEditing}
-              resetCar={resetCar}
-              store={store}
-              editing={editing}
-            />
+            <CarForm store={store} />
           </div>
         </div>
         <div className="seven columns">
           <h2>View cars</h2>
-          <CarTable
-            cars={cars}
-            editCar={editCar}
+          <Table
             store={store}
             name="cars"
             headings={["ID", "Make", "Model"]}
             data={store.cars.map((car) => [car.id, car.make, car.model])}
-            onDelete={(car) => props.store.deleteCar(car.id)}
-            onEdit={(car) => props.editCar(car.id, car)}
+            onDelete={(car) => store.deleteCar(car.id)}
+            onEdit={(car) => store.updateCar(car.id, car)}
           />
         </div>
       </div>
@@ -89,60 +71,30 @@ const CarsApp = (props) => {
   );
 };
 
-
-const CarsMake = (props) => {
-  const [carsMake, setCarsMake] = useState(CarTable);
-
-  const [editing, setEditing] = useState(false);
-
-  const initialCarMake = { id: null, name: "" };
-
-  const [currentCarMake, setCurrentCarMake] = useState(initialCarMake);
-
-  const editCarMake = (id, carMake) => {
-    setEditing(true);
-    setCurrentCarMake(carMake);
-  };
-
-  const resetCarMake = (newCarMake) => {
-    setCarsMake(store.carsMake.map((carMake) => (carMake.id === currentCarMake.id ? newCarMake : carMake)));
-    setCurrentCarMake(initialCarMake);
-    setEditing(false);
-  };
+const CarsMake = () => {
+  const [carMakeId, setCarMakeId] = React.useState(null);
 
   return (
     <div className="container">
-      <h1>React App</h1>
+      <h1>Car List App</h1>
       <div className="row">
         <div className="five columns">
           <div>
-            <CarMakeForm
-              currentCarMake={currentCarMake}
-              setEditing={setEditing}
-              resetCarMake={resetCarMake}
-              store={store}
-              editing={editing}
-            />
+            <CarMakeForm store={store} id={carMakeId} />
           </div>
         </div>
         <div className="seven columns">
           <h2>View cars make</h2>
-          <CarTable
-            carsMake={carsMake}
-            editCarMake={editCarMake}
+          <Table
             store={store}
             name="cars make"
             headings={["ID", "Name"]}
-            data={store.carsMake.map((carMake) => [
-              carMake.id,
-              carMake.name,
-            ])}
-            onDelete={(carMake) => props.store.deleteCarMake(carMake.id)}
-            onEdit={(carMake) => props.editCarMake(carMake.id, carMake)}
+            data={store.carsMake.map((carMake) => [carMake.id, carMake.name])}
+            onDelete={(carMake) => store.deleteCarMake(carMake.id)}
+            onEdit={(id) => setCarMakeId(id)}
           />
         </div>
       </div>
     </div>
   );
 };
-

@@ -49,7 +49,7 @@ const CarForm = (props) => {
       <label>Make</label>
       <select
         className="u-full-width"
-        value={car.make}
+        value={props.store.cars.make}
         name="make"
         onChange={handleChange}
       >
@@ -67,7 +67,7 @@ const CarForm = (props) => {
       <input
         className="u-full-width"
         type="text"
-        value={car.model}
+        value={props.store.cars.model}
         name="model"
         onChange={handleChange}
       />
