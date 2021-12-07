@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import CarMakePageStore from "./stores/CarMakePageStore";
 import CarPageStore from "./stores/CarPageStore";
-import { CarMakeContext, CarContext } from "./contexts";
+import { CarMakeContext, CarContext } from "./common/contexts";
 
 ReactDOM.render(
   <CarMakeContext.Provider value={new CarMakePageStore()}>

@@ -1,9 +1,9 @@
 import React from "react";
 
-import CarMakeListPage from './pages/CarMakeListPage'
-import CarListPage from './pages/CarListPage'
+import CarMakeListPage from './pages/make/CarMakeListPage'
+import CarListPage from './pages/car/CarListPage'
 
-import car_drawing from "./common/car_drawing.png";
+import car_logo from "./layouts/car_logo.png";
 
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
@@ -27,7 +27,7 @@ export default function App(props) {
             element={
               <div className="container">
                 <h1>Car List App</h1>
-                <img src={car_drawing} alt="Car logo" />
+                <img src={car_logo} alt="Car logo" />
               </div>
             }
           />

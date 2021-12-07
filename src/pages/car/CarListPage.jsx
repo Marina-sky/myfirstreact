@@ -1,9 +1,9 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { useCarStore } from "../contexts";
+import { useCarStore } from "../../common/contexts";
 
-import Table from "../components/Table";
-import CarForm from "../components/forms/CarForm";
+import Table from "../../components/Table";
+import CarForm from "./CarForm";
 
 const CarListPage = observer(() => {
     const store = useCarStore()
