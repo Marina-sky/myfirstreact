@@ -1,7 +1,9 @@
 import React from "react";
 
 import CarMakeListPage from './pages/make/CarMakeListPage'
+import CarMakeEditPage from "./pages/make/CarMakeEditPage";
 import CarListPage from './pages/car/CarListPage'
+import CarEditPage from "./pages/car/CarEditPage";
 
 import car_logo from "./layouts/car_logo.png";
 
@@ -31,12 +33,10 @@ export default function App(props) {
               </div>
             }
           />
-          <Route path="/cars" element={<CarListPage store={props.store} />}>
-            <Route path="edit/:carId" element={<div />} />
-          </Route>
-          <Route path="/makes" element={<CarMakeListPage />}>
-            <Route path="edit/:makeId" element={<div />} />
-          </Route>
+          <Route path="/cars" element={<CarListPage />} />
+          <Route path="/cars/edit/:carId" element={<CarEditPage />} />
+          <Route path="/makes" element={<CarMakeListPage />} />
+          <Route path="/makes/edit/:makeId" element={<CarMakeEditPage />} />
         </Routes>
       </div>
     </Router>

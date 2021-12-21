@@ -18,7 +18,7 @@ const CarMakeListPage = observer(() => {
           </div>
         </div>
         <div className="seven columns">
-          <h2>View cars make</h2>
+          <h2>View car makes</h2>
           <Table
             name="cars make"
             headings={["ID", "Name"]}

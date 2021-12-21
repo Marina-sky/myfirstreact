@@ -6,7 +6,7 @@ import Table from "../../components/Table";
 import CarForm from "./CarForm";
 
 const CarListPage = observer(() => {
-    const store = useCarStore()
+  const store = useCarStore()
 
   return (
     <div className="container">
