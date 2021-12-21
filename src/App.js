@@ -9,7 +9,7 @@ import car_logo from "./layouts/car_logo.png";
 
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
-export default function App(props) {
+export default function App() {
   return (
     <Router>
       <div>
