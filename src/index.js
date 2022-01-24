@@ -1,15 +1,20 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import CarMakePageStore from "./stores/CarMakePageStore";
-import CarPageStore from "./stores/CarPageStore";
-import { CarMakeContext, CarContext } from "./common/contexts";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+import CarMakePageStore from './stores/CarMakePageStore'
+import CarPageStore from './stores/CarPageStore'
+import CarFormStore from './stores/CarFormStore'
+import CarMakeFormStore from './stores/CarMakeFormStore'
+import { Provider } from 'mobx-react'
 
 ReactDOM.render(
-  <CarMakeContext.Provider value={new CarMakePageStore()}>
-    <CarContext.Provider value={new CarPageStore()}>
-      <App />
-    </CarContext.Provider>
-  </CarMakeContext.Provider>,
-  document.getElementById("root")
-);
+  <Provider
+    CarMakePageStore={new CarMakePageStore()}
+    CarPageStore={new CarPageStore()}
+    CarFormStore={new CarFormStore()}
+    CarMakeFormStore={new CarMakeFormStore()}
+  >
+    <App />
+  </Provider>,
+  document.getElementById('root'),
+)

@@ -15,7 +15,7 @@ class CarPageStore {
     this.cars = this.cars.filter((car) => car.id !== id);
   }
 
-  editCarMake(id, newMake, newModel) {
+  editCar(id, newMake, newModel) {
     const carIndexAtId = this.cars.findIndex((car) => car.id === id);
     if (carIndexAtId > -1 && newMake && newModel) {
       this.cars[carIndexAtId] = { id, make: newMake, model: newModel };

@@ -1,36 +1,34 @@
-import React from "react";
-import { observer } from "mobx-react";
-import { useCarStore } from "../../common/contexts";
+import React from 'react'
+import { inject, observer } from 'mobx-react'
 
-import Table from "../../components/Table";
-import CarForm from "./CarForm";
+import Table from '../../components/Table'
+import CarForm from './CarForm'
 
-const CarListPage = observer(() => {
-  const store = useCarStore()
-
-  return (
-    <div className="container">
-      <h1>Car List App</h1>
-      <div className="row">
-        <div className="five columns">
-          <div>
-            <CarForm store={store} />
+class CarListPage extends React.Component {
+  render() {
+    const { cars, deleteCar } = this.props.CarPageStore
+    return (
+      <div className="container">
+        <h1>Car List App</h1>
+        <div className="row">
+          <div className="five columns">
+            <div>
+              <CarForm />
+            </div>
+          </div>
+          <div className="seven columns">
+            <h2>View cars</h2>
+            <Table
+              name="cars"
+              headings={['ID', 'Make', 'Model']}
+              data={cars.map((car) => [car.id, car.make, car.model])}
+              onDelete={(carId) => deleteCar(carId)}
+            />
           </div>
         </div>
-        <div className="seven columns">
-          <h2>View cars</h2>
-          <Table
-            store={store}
-            name="cars"
-            headings={["ID", "Make", "Model"]}
-            data={store.cars.map((car) => [car.id, car.make, car.model])}
-            onDelete={(carId) => store.deleteCar(carId)}
-            onEdit={(car) => store.updateCar(car.id, car)}
-          />
-        </div>
       </div>
-    </div>
-  );
-});
+    )
+  }
+}
 
-export default CarListPage;
+export default inject('CarPageStore')(observer(CarListPage))

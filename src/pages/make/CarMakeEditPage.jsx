@@ -1,65 +1,62 @@
-import React, { useState } from "react";
-import { observer } from "mobx-react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { useCarMakeStore } from "../../common/contexts";
+import React from 'react'
+import { inject, observer } from 'mobx-react'
+import { Link, withRouter } from 'react-router-dom'
 
-const CarMakeEditPage = () => {
-  const [error, setError] = useState("");
-  const { makeId } = useParams();
-  const store = useCarMakeStore();
-  let navigate = useNavigate();
+class CarMakeEditPage extends React.Component {
+  render() {
+    const { makeId } = this.props.match.params
+    const { carMakes, editCarMake } = this.props.CarMakePageStore
 
-  const currentCarMake = store.carMakes.find(
-    (make) => make.id === Number(makeId)
-  );
+    const currentCarMake = carMakes.find(
+      (make) => make.id === Number(makeId),
+    )
 
-  const [newName, setNewName] = useState(
-    currentCarMake ? currentCarMake.name : ""
-  );
+    const { error, newName, setError, setNewName } = this.props.CarMakeEditPageStore
 
-  if (!currentCarMake) {
-    return (
-      <div>
-        <p>No car make with this ID</p>
-        <Link to="/makes">Back</Link>
-      </div>
-    );
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (newName) {
-      store.editCarMake(Number(makeId), newName);
-      navigate("/makes");
-    } else {
-      setError("This field is required.");
+    if (!currentCarMake) {
+      return (
+        <div>
+          <p>No car make with this ID</p>
+          <Link to="/makes">Back</Link>
+        </div>
+      )
     }
-  };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <h2>Edit car make</h2>
-      <label>Name</label>
-      <input
-        className="u-full-width"
-        type="text"
-        value={newName}
-        onChange={(event) => {
-          setNewName(event.target.value);
-          setError("");
-        }}
-      />
-      {error && <div style={{ color: "red" }}>{error}</div>}
-      <div>
-        <button className="button-primary" type="submit">
-          Edit car make
-        </button>
-        <Link to="/makes" className="button">
-          Cancel
-        </Link>
-      </div>
-    </form>
-  );
-};
+    const handleSubmit = (e) => {
+      e.preventDefault()
+      if (newName) {
+        editCarMake(Number(makeId), newName)
+        this.props.history.push('/makes')
+      } else {
+        setError('This field is required.')
+      }
+    }
 
-export default observer(CarMakeEditPage);
+    return (
+      <form onSubmit={handleSubmit}>
+        <h2>Edit car make</h2>
+        <label>Name</label>
+        <input
+          className="u-full-width"
+          type="text"
+          value={newName}
+          onChange={(event) => {
+            setNewName(event.target.value)
+            setError('')
+          }}
+        />
+        {error && <div style={{ color: 'red' }}>{error}</div>}
+        <div>
+          <button className="button-primary" type="submit">
+            Edit car make
+          </button>
+          <Link to="/makes" className="button">
+            Cancel
+          </Link>
+        </div>
+      </form>
+    )
+  }
+}
+
+export default inject('CarMakeEditPageStore', 'CarMakePageStore')(observer(withRouter(CarMakeEditPage)))

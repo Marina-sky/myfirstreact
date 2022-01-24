@@ -7,7 +7,7 @@ import CarEditPage from "./pages/car/CarEditPage";
 
 import car_logo from "./layouts/car_logo.png";
 
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export default function App() {
   return (
@@ -23,21 +23,26 @@ export default function App() {
             </li>
           </ul>
         </nav>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <div className="container">
-                <h1>Car List App</h1>
-                <img src={car_logo} alt="Car logo" />
-              </div>
-            }
-          />
-          <Route path="/cars" element={<CarListPage />} />
-          <Route path="/cars/edit/:carId" element={<CarEditPage />} />
-          <Route path="/makes" element={<CarMakeListPage />} />
-          <Route path="/makes/edit/:makeId" element={<CarMakeEditPage />} />
-        </Routes>
+        <Switch>
+          <Route exact path="/">
+            <div className="container">
+              <h1>Car List App</h1>
+              <img src={car_logo} alt="Car logo" />
+            </div>
+          </Route>
+          <Route path="/cars">
+            <CarListPage />
+          </Route>
+          <Route path="/cars/edit/:carId">
+            <CarEditPage />
+          </Route>
+          <Route path="/makes">
+            <CarMakeListPage />
+          </Route>
+          <Route path="/makes/edit/:makeId">
+            <CarMakeEditPage />
+          </Route>
+        </Switch>
       </div>
     </Router>
   );
