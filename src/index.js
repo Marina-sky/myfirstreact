@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
-import CarMakePageStore from './stores/CarMakePageStore'
-import CarPageStore from './stores/CarPageStore'
-import CarFormStore from './stores/CarFormStore'
-import CarMakeFormStore from './stores/CarMakeFormStore'
+import CarPageStore from './stores/car/CarPageStore'
+import CarFormStore from './stores/car/CarFormStore'
+import CarMakePageStore from './stores/make/CarMakePageStore'
+import CarMakeFormStore from './stores/make/CarMakeFormStore'
 import { Provider } from 'mobx-react'
 
 ReactDOM.render(
