@@ -3,31 +3,41 @@ import { inject, observer } from 'mobx-react'
 import { Link, withRouter } from 'react-router-dom'
 
 class CarEditPage extends React.Component {
+  componentDidMount() {
+    const { carId } = this.props.match.params;
+    const { CarEditPageStore, CarPageStore } = this.props;
+    const currentCar = CarPageStore.cars.find(
+      (car) => car.id === Number(carId)
+    );
+    
+    CarEditPageStore.setNewMake(currentCar ? currentCar.make : "");
+    CarEditPageStore.setNewModel(currentCar ? currentCar.model : "");
+  }
+
   render() {
     const { carId } = this.props.match.params
-    const { newMake, newModel, error, setNewMake, setNewModel, setError } =
-      this.props.CarEditPageStore
-    const { cars, editCar } = this.props.CarPageStore
-    const { carMakes } = this.props.CarMakePageStore
+    const { CarEditPageStore, CarPageStore, CarMakePageStore } = this.props;
 
-    const currentCar = cars.find((car) => car.id === Number(carId))
-
-    if (!currentCar) {
+    if (!CarEditPageStore.newMake && !CarEditPageStore.newModel) {
       return (
         <div>
           <p>No car with this ID</p>
-          <Link to="/makes">Back</Link>
+          <Link to="/cars">Back</Link>
         </div>
-      )
+      );
     }
 
     const handleSubmit = (e) => {
       e.preventDefault()
-      if (newMake && newModel) {
-        editCar(Number(carId), newMake, newModel)
-        this.props.history.push('/cars')
+      if (CarEditPageStore.newMake && CarEditPageStore.newModel) {
+        CarPageStore.editCar(
+          Number(carId),
+          CarEditPageStore.newMake,
+          CarEditPageStore.newModel
+        );
+        this.props.history.push("/cars");
       } else {
-        setError('Both fields are required.')
+        CarEditPageStore.setError("Both fields are required.");
       }
     }
 
@@ -37,35 +47,37 @@ class CarEditPage extends React.Component {
         <label>Make</label>
         <select
           className="u-full-width"
-          value={newMake}
+          value={CarEditPageStore.newMake}
           name="make"
           onChange={(event) => {
-            setNewMake(event.target.value)
-            setError('')
+            CarEditPageStore.setNewMake(event.target.value);
+            CarEditPageStore.setError("");
           }}
         >
           <option value="">-- select --</option>
-          {carMakes.map((mt) => {
-            const { id, name } = mt
+          {CarMakePageStore.carMakes.map((mt) => {
+            const { id, name } = mt;
             return (
               <option key={id} value={name}>
                 {name}
               </option>
-            )
+            );
           })}
         </select>
         <label>Model</label>
         <input
           className="u-full-width"
           type="text"
-          value={newModel}
+          value={CarEditPageStore.newModel}
           name="model"
           onChange={(event) => {
-            setNewModel(event.target.value)
-            setError('')
+            CarEditPageStore.setNewModel(event.target.value);
+            CarEditPageStore.setError("");
           }}
         />
-        {error && <div style={{ color: 'red' }}>{error}</div>}
+        {CarEditPageStore.error && (
+          <div style={{ color: "red" }}>{CarEditPageStore.error}</div>
+        )}
         <div>
           <button className="button-primary" type="submit">
             Edit car
@@ -75,7 +87,7 @@ class CarEditPage extends React.Component {
           </Link>
         </div>
       </form>
-    )
+    );
   }
 }
 
@@ -83,4 +95,4 @@ export default inject(
   'CarEditPageStore',
   'CarPageStore',
   'CarMakePageStore',
-)(observer(withRouter(CarEditPage)))
+)(withRouter(observer(CarEditPage)))

@@ -6,7 +6,7 @@ import CarMakeForm from './CarMakeForm'
 
 class CarMakeListPage extends React.Component {
   render() {
-    const { carMakes, deleteCarMake } = this.props.CarMakePageStore
+    const { CarMakePageStore } = this.props
     return (
       <div className="container">
         <h1>Car List App</h1>
@@ -21,8 +21,8 @@ class CarMakeListPage extends React.Component {
             <Table
               name="cars make"
               headings={['ID', 'Name']}
-              data={carMakes.map((carMake) => [carMake.id, carMake.name])}
-              onDelete={(id) => deleteCarMake(id)}
+              data={CarMakePageStore.carMakes.map((carMake) => [carMake.id, carMake.name])}
+              onDelete={(id) => CarMakePageStore.deleteCarMake(id)}
             />
           </div>
         </div>

@@ -3,17 +3,20 @@ import { inject, observer } from 'mobx-react'
 import { Link, withRouter } from 'react-router-dom'
 
 class CarMakeEditPage extends React.Component {
-  render() {
+  componentDidMount() {
     const { makeId } = this.props.match.params
-    const { carMakes, editCarMake } = this.props.CarMakePageStore
-
-    const currentCarMake = carMakes.find(
+    const {CarMakeEditPageStore, CarMakePageStore} = this.props
+    const currentCarMake = CarMakePageStore.carMakes.find(
       (make) => make.id === Number(makeId),
     )
+    CarMakeEditPageStore.setNewName(currentCarMake ? currentCarMake.name : '')
+  }
 
-    const { error, newName, setError, setNewName } = this.props.CarMakeEditPageStore
+  render() {
+    const { makeId } = this.props.match.params
+    const {CarMakeEditPageStore, CarMakePageStore} = this.props
 
-    if (!currentCarMake) {
+    if (!CarMakeEditPageStore.newName) {
       return (
         <div>
           <p>No car make with this ID</p>
@@ -24,11 +27,11 @@ class CarMakeEditPage extends React.Component {
 
     const handleSubmit = (e) => {
       e.preventDefault()
-      if (newName) {
-        editCarMake(Number(makeId), newName)
+      if (CarMakeEditPageStore.newName) {
+        CarMakePageStore.editCarMake(Number(makeId), CarMakeEditPageStore.newName)
         this.props.history.push('/makes')
       } else {
-        setError('This field is required.')
+        CarMakeEditPageStore.setError('This field is required.')
       }
     }
 
@@ -39,13 +42,13 @@ class CarMakeEditPage extends React.Component {
         <input
           className="u-full-width"
           type="text"
-          value={newName}
+          value={CarMakeEditPageStore.newName}
           onChange={(event) => {
-            setNewName(event.target.value)
-            setError('')
+            CarMakeEditPageStore.setNewName(event.target.value)
+            CarMakeEditPageStore.setError('')
           }}
         />
-        {error && <div style={{ color: 'red' }}>{error}</div>}
+        {CarMakeEditPageStore.error && <div style={{ color: 'red' }}>{CarMakeEditPageStore.error}</div>}
         <div>
           <button className="button-primary" type="submit">
             Edit car make
@@ -59,4 +62,4 @@ class CarMakeEditPage extends React.Component {
   }
 }
 
-export default inject('CarMakeEditPageStore', 'CarMakePageStore')(observer(withRouter(CarMakeEditPage)))
+export default inject('CarMakeEditPageStore', 'CarMakePageStore')(withRouter(observer(CarMakeEditPage)))

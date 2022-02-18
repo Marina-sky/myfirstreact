@@ -1,7 +1,13 @@
 import { makeAutoObservable } from "mobx";
 
 class CarMakePageStore {
-  carMakes = [];
+  carMakes = [
+    {id: 1, name: 'Acura'},
+    {id: 2, name: 'Alfa Romeo'},
+    {id: 3, name: 'Aston Martin'},
+    {id: 4, name: 'Audi'},
+    {id: 5, name: 'Bentley'},
+  ];
 
   constructor() {
     makeAutoObservable(this);

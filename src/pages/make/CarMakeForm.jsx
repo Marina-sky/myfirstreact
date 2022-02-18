@@ -3,16 +3,15 @@ import { inject, observer } from 'mobx-react'
 
 class CarMakeForm extends React.Component {
   render() {
-    const { carMakeName, error, setCarMakeName, setError } = this.props.CarMakeFormStore
-    const { createCarMake } = this.props.CarMakePageStore
+    const { CarMakeFormStore, CarMakePageStore } = this.props
 
     const handleSubmit = (e) => {
       e.preventDefault()
-      if (carMakeName) {
-        createCarMake(carMakeName)
-        setCarMakeName('')
+      if (CarMakeFormStore.carMakeName) {
+        CarMakePageStore.createCarMake(CarMakeFormStore.carMakeName)
+        CarMakeFormStore.setCarMakeName('')
       } else {
-        setError('This field is required.')
+        CarMakeFormStore.setError('This field is required.')
       }
     }
 
@@ -23,13 +22,13 @@ class CarMakeForm extends React.Component {
         <input
           className="u-full-width"
           type="text"
-          value={carMakeName}
+          value={CarMakeFormStore.carMakeName}
           onChange={(event) => {
-            setCarMakeName(event.target.value)
-            setError('')
+            this.props.CarMakeFormStore.setCarMakeName(event.target.value)
+            this.props.CarMakeFormStore.setError('')
           }}
         />
-        {error && <div style={{ color: 'red' }}>{error}</div>}
+        {CarMakeFormStore.error && <div style={{ color: 'red' }}>{CarMakeFormStore.error}</div>}
         <div>
           <button className="button-primary" type="submit">
             Add car make

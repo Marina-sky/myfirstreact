@@ -30,13 +30,13 @@ export default function App() {
               <img src={car_logo} alt="Car logo" />
             </div>
           </Route>
-          <Route path="/cars">
+          <Route exact path="/cars">
             <CarListPage />
           </Route>
           <Route path="/cars/edit/:carId">
             <CarEditPage />
           </Route>
-          <Route path="/makes">
+          <Route exact path="/makes">
             <CarMakeListPage />
           </Route>
           <Route path="/makes/edit/:makeId">
