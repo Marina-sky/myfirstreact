@@ -3,26 +3,37 @@ import { inject, observer } from 'mobx-react'
 
 import Table from '../../components/Table'
 import CarForm from './CarForm'
+import CarPageStore from './CarPageStore'
 
 class CarListPage extends React.Component {
+  componentDidMount() {
+    const {carPageStore} = this.props
+    carPageStore.initialize()
+  }
+
   render() {
-    const {CarPageStore} = this.props
+    const { carPageStore } = this.props
     return (
       <div className="container">
         <h1>Car List App</h1>
         <div className="row">
           <div className="five columns">
             <div>
-              <CarForm />
+              <CarForm onCreate={(newCar) => carPageStore.createCar(newCar)} />
             </div>
           </div>
           <div className="seven columns">
             <h2>View cars</h2>
             <Table
+              resource="cars"
               name="cars"
               headings={['ID', 'Make', 'Model']}
-              data={CarPageStore.cars.map((car) => [car.id, car.make, car.model])}
-              onDelete={(carId) => CarPageStore.deleteCar(carId)}
+              data={carPageStore.cars.map((car) => [
+                car.id,
+                car.make || '(Missing car make)',
+                car.model,
+              ])}
+              onDelete={(carId) => carPageStore.deleteCar(carId)}
             />
           </div>
         </div>
@@ -31,4 +42,6 @@ class CarListPage extends React.Component {
   }
 }
 
-export default inject('CarPageStore')(observer(CarListPage))
+export default inject(() => ({
+  carPageStore: new CarPageStore(),
+}))(observer(CarListPage))

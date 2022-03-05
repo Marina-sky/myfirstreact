@@ -1,42 +1,36 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react'
+import CarFormStore from './CarFormStore'
 
 class CarForm extends React.Component {
-  render() {
-    const { CarFormStore, CarPageStore, CarMakePageStore } = this.props
+  componentDidMount() {
+    const { carFormStore } = this.props
+    carFormStore.initialize()
+  }
 
-    const handleSubmit = (e) => {
-      e.preventDefault()
-      if (CarFormStore.carMake && CarFormStore.carModel) {
-        CarPageStore.createCar({
-          make: CarFormStore.carMake,
-          model: CarFormStore.carModel,
-        })
-        CarFormStore.setCarMake('')
-        CarFormStore.setCarModel('')
-      } else {
-        CarFormStore.setError('Both fields are required.')
-      }
-    }
+  render() {
+    const { carFormStore, onCreate } = this.props
 
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={async (event) => {
+        onCreate(await carFormStore.handleSubmit(event))
+      }}>
         <h2>Add car</h2>
         <label>Make</label>
         <select
           className="u-full-width"
-          value={CarFormStore.carMake}
+          value={carFormStore.carMakeId}
           name="make"
           onChange={(event) => {
-            CarFormStore.setCarMake(event.target.value)
-            CarFormStore.setError('')
+            carFormStore.setCarMakeId(event.target.value)
+            carFormStore.setError('')
           }}
         >
           <option value="">-- select --</option>
-          {CarMakePageStore.carMakes.map((mt) => {
+          {carFormStore.carMakes.map((mt) => {
             const { id, name } = mt
             return (
-              <option key={id} value={name}>
+              <option key={id} value={id}>
                 {name}
               </option>
             )
@@ -46,14 +40,14 @@ class CarForm extends React.Component {
         <input
           className="u-full-width"
           type="text"
-          value={CarFormStore.carModel}
+          value={carFormStore.carModel}
           name="model"
           onChange={(event) => {
-            CarFormStore.setCarModel(event.target.value)
-            CarFormStore.setError('')
+            carFormStore.setCarModel(event.target.value)
+            carFormStore.setError('')
           }}
         />
-        {CarFormStore.error && <div style={{ color: 'red' }}>{CarFormStore.error}</div>}
+        {carFormStore.error && <div style={{ color: 'red' }}>{carFormStore.error}</div>}
         <div>
           <button className="button-primary" type="submit">
             Add car
@@ -64,4 +58,9 @@ class CarForm extends React.Component {
   }
 }
 
-export default inject('CarFormStore', 'CarPageStore', 'CarMakePageStore')(observer(CarForm))
+const carFormStore = new CarFormStore()
+
+export default inject(() => ({
+  carFormStore,
+}))(observer(CarForm))
+

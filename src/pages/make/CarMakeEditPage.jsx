@@ -1,22 +1,18 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react'
 import { Link, withRouter } from 'react-router-dom'
+import CarMakeEditPageStore from './CarMakeEditPageStore'
 
 class CarMakeEditPage extends React.Component {
   componentDidMount() {
-    const { makeId } = this.props.match.params
-    const {CarMakeEditPageStore, CarMakePageStore} = this.props
-    const currentCarMake = CarMakePageStore.carMakes.find(
-      (make) => make.id === Number(makeId),
-    )
-    CarMakeEditPageStore.setNewName(currentCarMake ? currentCarMake.name : '')
+    const { carMakeEditPageStore, match, history } = this.props
+    carMakeEditPageStore.initialize(Number(match.params.makeId), history)
   }
 
   render() {
-    const { makeId } = this.props.match.params
-    const {CarMakeEditPageStore, CarMakePageStore} = this.props
+    const {carMakeEditPageStore} = this.props
 
-    if (!CarMakeEditPageStore.newName) {
+    if (!carMakeEditPageStore.newName) {
       return (
         <div>
           <p>No car make with this ID</p>
@@ -25,30 +21,22 @@ class CarMakeEditPage extends React.Component {
       )
     }
 
-    const handleSubmit = (e) => {
-      e.preventDefault()
-      if (CarMakeEditPageStore.newName) {
-        CarMakePageStore.editCarMake(Number(makeId), CarMakeEditPageStore.newName)
-        this.props.history.push('/makes')
-      } else {
-        CarMakeEditPageStore.setError('This field is required.')
-      }
-    }
-
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(event) => {
+        carMakeEditPageStore.handleSubmit(event)
+      }}>
         <h2>Edit car make</h2>
         <label>Name</label>
         <input
           className="u-full-width"
           type="text"
-          value={CarMakeEditPageStore.newName}
+          value={carMakeEditPageStore.newName}
           onChange={(event) => {
-            CarMakeEditPageStore.setNewName(event.target.value)
-            CarMakeEditPageStore.setError('')
+            carMakeEditPageStore.setNewName(event.target.value)
+            carMakeEditPageStore.setError('')
           }}
         />
-        {CarMakeEditPageStore.error && <div style={{ color: 'red' }}>{CarMakeEditPageStore.error}</div>}
+        {carMakeEditPageStore.error && <div style={{ color: 'red' }}>{carMakeEditPageStore.error}</div>}
         <div>
           <button className="button-primary" type="submit">
             Edit car make
@@ -62,4 +50,6 @@ class CarMakeEditPage extends React.Component {
   }
 }
 
-export default inject('CarMakeEditPageStore', 'CarMakePageStore')(withRouter(observer(CarMakeEditPage)))
+export default inject(() => ({
+  carMakeEditPageStore: new CarMakeEditPageStore()
+}))(withRouter(observer(CarMakeEditPage)))

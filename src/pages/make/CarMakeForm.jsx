@@ -1,34 +1,27 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react'
+import CarMakeFormStore from './CarMakeFormStore'
 
 class CarMakeForm extends React.Component {
   render() {
-    const { CarMakeFormStore, CarMakePageStore } = this.props
-
-    const handleSubmit = (e) => {
-      e.preventDefault()
-      if (CarMakeFormStore.carMakeName) {
-        CarMakePageStore.createCarMake(CarMakeFormStore.carMakeName)
-        CarMakeFormStore.setCarMakeName('')
-      } else {
-        CarMakeFormStore.setError('This field is required.')
-      }
-    }
+    const { carMakeFormStore, onCreate } = this.props
 
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={async (event) => {
+        onCreate(await carMakeFormStore.handleSubmit(event))
+      }}>
         <h2>Add car make</h2>
         <label>Name</label>
         <input
           className="u-full-width"
           type="text"
-          value={CarMakeFormStore.carMakeName}
+          value={carMakeFormStore.carMakeName}
           onChange={(event) => {
-            this.props.CarMakeFormStore.setCarMakeName(event.target.value)
-            this.props.CarMakeFormStore.setError('')
+            this.props.carMakeFormStore.setCarMakeName(event.target.value)
+            this.props.carMakeFormStore.setError('')
           }}
         />
-        {CarMakeFormStore.error && <div style={{ color: 'red' }}>{CarMakeFormStore.error}</div>}
+        {carMakeFormStore.error && <div style={{ color: 'red' }}>{carMakeFormStore.error}</div>}
         <div>
           <button className="button-primary" type="submit">
             Add car make
@@ -39,4 +32,6 @@ class CarMakeForm extends React.Component {
   }
 }
 
-export default inject('CarMakeFormStore', 'CarMakePageStore')(observer(CarMakeForm))
+export default inject(() => ({
+  carMakeFormStore: new CarMakeFormStore()
+}))(observer(CarMakeForm))

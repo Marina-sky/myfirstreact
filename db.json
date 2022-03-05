@@ -1,0 +1,37 @@
+{
+  "makes": [
+    {
+      "id": 1,
+      "name": "Audi"
+    },
+    {
+      "id": 2,
+      "name": "BMW"
+    },
+    {
+      "id": 3,
+      "name": "Chevrolet"
+    },
+    {
+      "name": "ewtwtwtwet",
+      "id": 4
+    }
+  ],
+  "cars": [
+    {
+      "id": 1,
+      "makeId": 1,
+      "model": "A4"
+    },
+    {
+      "id": 2,
+      "makeId": 2,
+      "model": "X5"
+    },
+    {
+      "id": 3,
+      "makeId": 3,
+      "model": "Camaro"
+    }
+  ]
+}

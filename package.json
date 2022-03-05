@@ -8,8 +8,10 @@
     "@testing-library/user-event": "^12.8.3",
     "eslint": "^7.11.0",
     "eslint-plugin-react": "^7.27.1",
+    "json-server": "^0.17.0",
     "mobx": "^6.3.13",
     "mobx-react": "^7.1.0",
+    "npm-run-all": "^4.1.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.3.0",
@@ -18,7 +20,9 @@
     "web-vitals": "^1.1.1"
   },
   "scripts": {
+    "dev": "npm-run-all --parallel start db",
     "start": "react-scripts start",
+    "db": "json-server --no-cors --watch db.json --p 3001",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -29,6 +33,7 @@
       "react-app/jest"
     ]
   },
+  "prettier": {},
   "browserslist": {
     "production": [
       ">0.2%",

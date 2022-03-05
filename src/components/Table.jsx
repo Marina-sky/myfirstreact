@@ -1,10 +1,10 @@
 import React from 'react'
 import { observer } from 'mobx-react'
-import { Link, withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 class Table extends React.Component {
   render() {
-    const { name, headings, data, location, onDelete } = this.props
+    const { resource, name, headings, data, onDelete } = this.props
     return (
       <table>
         <thead>
@@ -25,11 +25,7 @@ class Table extends React.Component {
                 <td>
                   <button onClick={() => onDelete(r[0])}>Delete</button>
                   <Link
-                    to={
-                      location.pathname.includes('/makes')
-                        ? `/makes/edit/${r[0]}`
-                        : `/cars/edit/${r[0]}`
-                    }
+                    to={`/${resource}/edit/${r[0]}`}
                     className="button button-primary"
                   >
                     Edit
@@ -48,4 +44,4 @@ class Table extends React.Component {
   }
 }
 
-export default withRouter(observer(Table))
+export default observer(Table)
