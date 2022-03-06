@@ -1,4 +1,4 @@
-import { API_URL } from '../consts'
+import { API_URL } from './consts'
 
 class MakeService {
   getMakes() {

@@ -29,7 +29,6 @@ class CarFormStore {
       });
       this.carMakeId = ''
       this.carModel = ''
-      console.log(newCar)
       return newCar
     } else {
       this.error = 'Both fields are required.'
