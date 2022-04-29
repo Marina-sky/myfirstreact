@@ -1,6 +1,8 @@
 import React from 'react'
 import { inject, observer } from 'mobx-react'
 import CarMakeFormStore from './CarMakeFormStore'
+import Field from '../../components/Field.jsx'
+import Button from '../../components/Button.jsx'
 
 class CarMakeForm extends React.Component {
   render() {
@@ -11,21 +13,22 @@ class CarMakeForm extends React.Component {
         onCreate(await carMakeFormStore.handleSubmit(event))
       }}>
         <h2>Add car make</h2>
-        <label>Name</label>
-        <input
-          className="u-full-width"
-          type="text"
-          value={carMakeFormStore.carMakeName}
-          onChange={(event) => {
-            this.props.carMakeFormStore.setCarMakeName(event.target.value)
-            this.props.carMakeFormStore.setError('')
-          }}
-        />
-        {carMakeFormStore.error && <div style={{ color: 'red' }}>{carMakeFormStore.error}</div>}
-        <div>
-          <button className="button-primary" type="submit">
-            Add car make
-          </button>
+        <div className="space-y-3">
+          <Field
+            label="Name"
+            type="text"
+            value={carMakeFormStore.carMakeName}
+            onChange={(event) => {
+              this.props.carMakeFormStore.setCarMakeName(event.target.value)
+              this.props.carMakeFormStore.setError('')
+            }}
+          />
+          {carMakeFormStore.error && <div style={{ color: 'red' }}>{carMakeFormStore.error}</div>}
+          <div>
+            <Button variant="primary" type="submit">
+              Add car make
+            </Button>
+          </div>
         </div>
       </form>
     )

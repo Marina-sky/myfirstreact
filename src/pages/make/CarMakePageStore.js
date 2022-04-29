@@ -4,6 +4,7 @@ import MakeService from "../../common/MakeService";
 class CarMakePageStore {
   makeService = new MakeService();
   carMakes = [];
+  verifyDelete = undefined
 
   constructor() {
     makeAutoObservable(this);
@@ -17,9 +18,17 @@ class CarMakePageStore {
     if (make) this.carMakes.push(make);
   }
 
-  async deleteCarMake(id) {
-    await this.makeService.deleteMake(id);
-    this.carMakes = this.carMakes.filter((carMake) => carMake.id !== id);
+  verifyDeleteCarMake(id) {
+    this.verifyDelete = id
+  }
+
+  async deleteCarMake() {
+    await this.makeService.deleteMake(this.verifyDelete);
+    this.carMakes = this.carMakes.filter((carMake) => carMake.id !== this.verifyDelete);
+  }
+
+  cancelDeleteCarMake() {
+    return this.verifyDelete = undefined
   }
 
   async editCarMake(id, name) {

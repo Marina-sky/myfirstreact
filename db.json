@@ -7,27 +7,13 @@
     {
       "id": 2,
       "name": "BMW"
-    },
-    {
-      "id": 3,
-      "name": "Chevrolet"
     }
   ],
   "cars": [
     {
-      "id": 1,
       "makeId": 1,
-      "model": "A4"
-    },
-    {
-      "id": 2,
-      "makeId": 2,
-      "model": "X5"
-    },
-    {
-      "id": 3,
-      "makeId": 3,
-      "model": "Camaro"
+      "model": "A4",
+      "id": 1
     }
   ]
 }

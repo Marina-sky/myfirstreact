@@ -1,6 +1,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import { Link } from 'react-router-dom'
+import Button from './Button'
 
 class Table extends React.Component {
   render() {
@@ -22,14 +23,21 @@ class Table extends React.Component {
                 {r.map((d) => (
                   <td key={d}>{d}</td>
                 ))}
-                <td>
-                  <button onClick={() => onDelete(r[0])}>Delete</button>
-                  <Link
+                <td className="space-x-2 not-prose">
+                  <Button
+                    variant="danger"
+                    type="button"
+                    onClick={() => onDelete(r[0])}
+                  >
+                    Delete
+                  </Button>
+                  <Button
+                    as={Link}
+                    variant="white"
                     to={`/${resource}/edit/${r[0]}`}
-                    className="button button-primary"
                   >
                     Edit
-                  </Link>
+                  </Button>
                 </td>
               </tr>
             ))

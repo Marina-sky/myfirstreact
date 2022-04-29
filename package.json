@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@headlessui/react": "^1.6.0",
+    "@tailwindcss/forms": "^0.5.0",
+    "@tailwindcss/typography": "^0.5.2",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
@@ -17,10 +20,12 @@
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
     "react-table": "^7.7.0",
+    "tailwindcss": "^3.0.24",
     "web-vitals": "^1.1.1"
   },
   "scripts": {
-    "dev": "npm-run-all --parallel start db",
+    "dev": "npm-run-all --parallel start db css",
+    "css": "tailwindcss --input style.css --output src/style.css --watch",
     "start": "react-scripts start",
     "db": "json-server --no-cors --watch db.json --p 3001",
     "build": "react-scripts build",
