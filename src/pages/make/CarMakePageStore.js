@@ -14,7 +14,7 @@ class CarMakePageStore {
   }
 
   createCarMake(make) {
-    this.carMakes.push(make);
+    if (make) this.carMakes.push(make);
   }
 
   async deleteCarMake(id) {

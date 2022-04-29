@@ -12,7 +12,11 @@ class CarMakeEditPage extends React.Component {
   render() {
     const {carMakeEditPageStore} = this.props
 
-    if (!carMakeEditPageStore.newName) {
+    if (carMakeEditPageStore.loading) {
+      return <p>Loading...</p>
+    }
+
+    if (typeof carMakeEditPageStore.newName === 'undefined') {
       return (
         <div>
           <p>No car make with this ID</p>

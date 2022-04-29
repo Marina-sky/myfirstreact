@@ -12,7 +12,11 @@ class CarEditPage extends React.Component {
   render() {
     const { carEditPageStore } = this.props;
 
-    if (!carEditPageStore.newMake && !carEditPageStore.newModel) {
+    if (carEditPageStore.loading) {
+      return <p>Loading...</p>
+    }
+
+    if (typeof carEditPageStore.newMake === 'undefined' && typeof carEditPageStore.newModel === 'undefined') {
       return (
         <div>
           <p>No car with this ID</p>

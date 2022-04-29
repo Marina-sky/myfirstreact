@@ -1,11 +1,11 @@
-import { API_URL } from './consts'
+import { API_URL } from "./consts";
 
 class CarService {
   getCar(id) {
     return fetch(`${API_URL}/cars/${id}`, {
       method: "GET",
       headers: {
-        "content-type": "application/json"
+        "content-type": "application/json",
       },
     }).then((res) => res.json());
   }
@@ -14,7 +14,7 @@ class CarService {
     return fetch(`${API_URL}/cars`, {
       method: "GET",
       headers: {
-        "content-type": "application/json"
+        "content-type": "application/json",
       },
     }).then((res) => res.json());
   }
@@ -24,14 +24,14 @@ class CarService {
       method: "POST",
       body: JSON.stringify({ makeId, model }),
       headers: {
-        "content-type": "application/json"
-      }
+        "content-type": "application/json",
+      },
     }).then((res) => res.json());
   }
 
   deleteCar(id) {
     return fetch(`${API_URL}/cars/${id}`, {
-      method: "DELETE"
+      method: "DELETE",
     }).then((res) => res.json());
   }
 
@@ -40,8 +40,8 @@ class CarService {
       method: "PATCH",
       body: JSON.stringify({ makeId, model }),
       headers: {
-        "content-type": "application/json"
-      }
+        "content-type": "application/json",
+      },
     }).then((res) => res.json());
   }
 }

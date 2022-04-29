@@ -22,6 +22,7 @@ class CarPageStore {
   }
 
   async createCar(car) {
+    if (!car) return
     const make = await this.makeService.getMake(car.makeId)
     this.cars.push({ ...car, make: make.name });
   }
