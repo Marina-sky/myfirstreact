@@ -25,10 +25,11 @@
   },
   "scripts": {
     "dev": "npm-run-all --parallel start db css",
-    "css": "tailwindcss --input style.css --output src/style.css --watch",
+    "generate:css": "tailwindcss --output src/style.css",
+    "css": "npm run generate:css -- --watch",
     "start": "react-scripts start",
     "db": "json-server --no-cors --watch db.json --p 3001",
-    "build": "react-scripts build",
+    "build": "npm run generate:css -- --minify && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

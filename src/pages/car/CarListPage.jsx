@@ -10,8 +10,7 @@ function CarListPage({ carPageStore }) {
   const [deletingCarId, setDeletingCarId] = React.useState(undefined);
   React.useEffect(() => {
     carPageStore.initialize();
-    // eslint-ignore-next-line
-  }, []);
+  }, [carPageStore]);
   return (
     <div className="container">
       <h1>Car List App</h1>
